@@ -56,7 +56,8 @@ public class MusicSettingActivity extends Activity {
 				Intent intent = new Intent(mContext,
 						DisplayBackgroundMusicActivity.class);
 				Bundle b = new Bundle();
-				b.putStringArrayList("PicList", allImages);
+				//b.putStringArrayList("PicList", allImages);
+				b.putStringArrayList("MusicList", mMusicPaths);
 				intent.putExtra("Bundle", b);
 				startActivity(intent);
 
@@ -65,6 +66,13 @@ public class MusicSettingActivity extends Activity {
 
 		});
 		init_phone_music_grid();
+		
+		if(mMusicPaths != null){
+			if(!mMusicPaths.isEmpty()){
+				b.setVisibility(b.GONE);
+			}
+		}
+
 	}
 
 	private void processExtraData() {
@@ -130,7 +138,7 @@ public class MusicSettingActivity extends Activity {
 		}
 		System.out.println();
 
-		count = mMusicNames.size()-1;
+		count = mMusicNames.size();
 		musiclist = (ListView) findViewById(R.id.PhoneMusicList);
 		musiclist.setAdapter(new MusicAdapter(getApplicationContext()));
 
