@@ -296,17 +296,21 @@ public class DisplayBackgroundMusicActivity extends Activity {
 
 	public void updateUI() throws FileNotFoundException, IOException {
 
-		refreshHandler.sleep(7010);
+		refreshHandler.sleep(7000);
 		if (!stopSlidingShow) {
 			animationSet = new AnimationSet(true);
 			Animation fadeOutAnimation = new AlphaAnimation(1.0f, 0.0f);
 			Animation fadeInAnimation = new AlphaAnimation(0.0f, 1.0f);
+//			Animation stay = new AlphaAnimation(0.0f, 0.0f);
 			animationSet.addAnimation(fadeInAnimation);
 			animationSet.addAnimation(fadeOutAnimation);
+//			animationSet.addAnimation(stay);
 			fadeInAnimation.setDuration(1000);
 			fadeInAnimation.setStartOffset(0);
-			fadeOutAnimation.setDuration(900);
-			fadeOutAnimation.setStartOffset(6100);
+			fadeOutAnimation.setDuration(1000);
+			fadeOutAnimation.setStartOffset(6000);
+//			stay.setDuration(500);
+//			stay.setStartOffset(7000);
 			imageView.startAnimation(animationSet);
 
 			if (this.picList != null) {
