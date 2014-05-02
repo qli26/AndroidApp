@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<lint>
-    <issue id="NewApi">
-        <ignore path="src/com/qli26/a7/WebViewActivity.java" />
-    </issue>
-    <issue id="ValidFragment">
-        <ignore path="src/com/qli26/a7/WebViewActivity.java" />
-    </issue>
-</lint>
