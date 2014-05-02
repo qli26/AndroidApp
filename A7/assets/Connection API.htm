@@ -1,0 +1,36 @@
+<input type="button" value="get Status" onClick="get_status()" />
+
+<script type="text/javascript">
+var connection = navigator.connection||navigator.mozConnection||navigator.webkitConnection||{tyep:'unknown'};
+var type_text = ['unknown','ethernet','wifi','2g','3g','4g','none'];
+
+alert(connection.type);
+var re_el = document.getElementById("re");
+var btn_el = document.getElementById("btn");
+function get_status(){
+	if(typeof(connection.type) == "number"){
+		connection.type_text = type_text[connection.type];
+	}else{
+		connection.type_text = connection.type;
+	}
+	if(typeof(connection.bandwidth) == "number"){
+		if(connection.bandwidth == 2){
+			connection.type = 'wifi';
+			Android.showToast('wifi');
+		}else if(connection.bandwidth == 4){
+			connection.type = '3g';
+			Android.showToast('3g');
+		}else if(connection.bandwidth == 3){
+			connection.type = '2g';
+			Android.showToast('2g');
+		}else if(connection.bandwidth == 0){
+			connection.type = 'none';
+			Android.showToast('none');
+		}else{
+			connection.type = 'unknown';
+			Android.showToast('unknown');
+		}
+	}
+}
+
+</script>
