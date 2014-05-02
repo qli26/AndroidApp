@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory
+        android:key="preference_menu"
+        android:title="My preference" >
+        <Preference
+            android:icon="@drawable/ic_menu"
+            android:key="about"
+            android:layout="@layout/preference"
+            android:title="About" >
+        </Preference>
+        <EditTextPreference
+            android:defaultValue="Enter your export file name"
+            android:dialogTitle="Export Order Data"
+            android:key="edit_file_name"
+            android:title="Export" 
+            android:layout="@layout/preference"
+            android:icon="@drawable/ic_menu"
+            >
+        </EditTextPreference>
+        <!--
+        <Preference
+            android:key="export"
+            android:layout="@xml/preferenceexport"
+            android:title="Export data"
+            android:icon="@drawable/ic_menu">
+        </Preference>
+        -->
+    </PreferenceCategory>
+
+</PreferenceScreen>

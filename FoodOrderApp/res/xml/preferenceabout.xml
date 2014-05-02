@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory
+        android:key="preference_key"
+        android:title="About" >
+        <Preference
+            android:key="author"
+            android:layout="@layout/preference"
+            android:title="Author: " 
+            android:summary="Qi Li">
+        </Preference>
+        <Preference
+            android:key="email"
+            android:layout="@layout/preference"
+            android:title="Email: " 
+            android:summary="qli26@hawk.iit.edu">
+        </Preference>
+        <Preference
+            android:key="version"
+            android:layout="@layout/preference"
+            android:title="Version: " 
+            android:summary="1.01">
+        </Preference>
+        <Preference
+            android:key="description"
+            android:layout="@layout/preference"
+            android:title="Description: " 
+            android:summary="This is an IIT CS442 Android Development course assignment food order app for Pizza. All image resources are from Pizza Hut.">
+        </Preference>
+    </PreferenceCategory>
+
+</PreferenceScreen>
