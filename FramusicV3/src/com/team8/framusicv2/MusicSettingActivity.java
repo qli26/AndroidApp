@@ -56,8 +56,7 @@ public class MusicSettingActivity extends Activity {
 				Intent intent = new Intent(mContext,
 						DisplayBackgroundMusicActivity.class);
 				Bundle b = new Bundle();
-				//b.putStringArrayList("PicList", allImages);
-				b.putStringArrayList("MusicList", mMusicPaths);
+				b.putStringArrayList("PicList", allImages);
 				intent.putExtra("Bundle", b);
 				startActivity(intent);
 
@@ -66,13 +65,6 @@ public class MusicSettingActivity extends Activity {
 
 		});
 		init_phone_music_grid();
-		
-		if(mMusicPaths != null){
-			if(!mMusicPaths.isEmpty()){
-				b.setVisibility(b.GONE);
-			}
-		}
-
 	}
 
 	private void processExtraData() {
@@ -138,7 +130,7 @@ public class MusicSettingActivity extends Activity {
 		}
 		System.out.println();
 
-		count = mMusicNames.size();
+		count = mMusicNames.size() - 1;
 		musiclist = (ListView) findViewById(R.id.PhoneMusicList);
 		musiclist.setAdapter(new MusicAdapter(getApplicationContext()));
 
@@ -156,21 +148,40 @@ public class MusicSettingActivity extends Activity {
 			String filename = musiccursor.getString(music_column_index);
 
 			try {
-				Intent intent = new Intent(mContext,
-						DisplayBackgroundMusicActivity.class);
+				if(mFirstTimeOpen == true){
+					Intent intent = new Intent(mContext,
+							DisplayBackgroundMusicActivity.class);
 
-				Bundle b = new Bundle();
-				b.putStringArrayList("MusicList", mMusicPaths);
-				// String currentMusicPath = musiccursor.getString(musiccursor
-				// .getColumnIndex(MediaStore.Audio.Media.DATA));
-				int currentMusic = position;
-				b.putInt("CurrenMusic", currentMusic);
+					Bundle b = new Bundle();
+					b.putStringArrayList("MusicList", mMusicPaths);
+					int currentMusic = position;
+					b.putInt("CurrenMusic", currentMusic);
+					b.putStringArrayList("PicList", allImages);
 
-				intent.putExtra("MusicBundle", b);
-				startActivity(intent);
-				musiccursor.close();
-				System.out.print(currentMusic);
-				finish();
+					intent.putExtra("MusicBundle", b);
+					startActivity(intent);
+					musiccursor.close();
+					System.out.print(currentMusic);
+					finish();
+				}
+				else{
+					Intent intent = new Intent(mContext,
+							DisplayBackgroundMusicActivity.class);
+
+					Bundle b = new Bundle();
+					b.putStringArrayList("MusicList", mMusicPaths);
+					// String currentMusicPath =
+					// musiccursor.getString(musiccursor
+					// .getColumnIndex(MediaStore.Audio.Media.DATA));
+					int currentMusic = position;
+					b.putInt("CurrenMusic", currentMusic);
+
+					intent.putExtra("MusicBundle", b);
+					startActivity(intent);
+					musiccursor.close();
+					System.out.print(currentMusic);
+					finish();
+				}
 			} catch (Exception e) {
 
 			}
@@ -201,15 +212,15 @@ public class MusicSettingActivity extends Activity {
 			if (convertView == null) {
 				convertView = new TextView(mContext.getApplicationContext());
 			}
-			
-				TextView tv = (TextView) convertView;
-				tv = (TextView) convertView;
 
-				tv.setText(mMusicNames.get(position));
-				tv.setTextSize(20);
-				
-				return tv;
-			
+			TextView tv = (TextView) convertView;
+			tv = (TextView) convertView;
+
+			tv.setText(mMusicNames.get(position));
+			tv.setTextSize(20);
+
+			return tv;
+
 		}
 	}
 }

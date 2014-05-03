@@ -1,5 +1,6 @@
 package com.team8.framusicv2;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -61,7 +62,16 @@ public class MultiPhotoSelectActivity extends BaseActivity {
 		while (imageCursor.moveToNext()) {
 			int dataColumnIndex = imageCursor
 					.getColumnIndex(MediaStore.Images.Media.DATA);
-			imageUrls.add(imageCursor.getString(dataColumnIndex));
+			
+			String filename = imageCursor.getString(dataColumnIndex);
+			File f = new File(filename);
+			long fileSize = f.length() / 1000;
+
+			if (fileSize > 50) {
+				imageUrls.add(imageCursor.getString(dataColumnIndex));
+
+				System.out.println("=====> Array path => " + imageUrls.get(imageUrls.size() - 1));
+			}
 		}
 
 		options = new DisplayImageOptions.Builder()

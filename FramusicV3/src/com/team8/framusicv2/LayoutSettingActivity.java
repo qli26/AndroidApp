@@ -25,7 +25,29 @@ public class LayoutSettingActivity extends Activity {
 		mContext = this;
 		getSharedPreferences();
 		processExtraData();
+		
 
+		ImageButton layout1 = (ImageButton) findViewById(R.id.layout1);
+		layout1.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(mContext, Layout1Activity.class);
+				startActivity(intent);
+			}
+		});
+		
+		ImageButton layout2 = (ImageButton) findViewById(R.id.layout2);
+		layout2.setOnClickListener(new OnClickListener(){
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(mContext, Layout2Activity.class);
+				startActivity(intent);
+			}
+		});
+		
 		ImageButton layout3 = (ImageButton) findViewById(R.id.layout3);
 		layout3.setOnClickListener(new OnClickListener(){
 
@@ -35,7 +57,7 @@ public class LayoutSettingActivity extends Activity {
 				Intent intent = new Intent(mContext, Layout3Activity.class);
 				startActivity(intent);
 			}
-		});
+		});	
 		
 		Button done = (Button) findViewById(R.id.btn_done);
 		done.setOnClickListener(new OnClickListener() {

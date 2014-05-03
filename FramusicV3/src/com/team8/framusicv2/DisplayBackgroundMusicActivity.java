@@ -115,7 +115,7 @@ public class DisplayBackgroundMusicActivity extends Activity {
 		if (musicPlayer == null) {
 			musicPlayer = new MusicPlayer(mContext);
 		}
-
+		this.imageView = (ImageView) this.findViewById(R.id.imageView);
 		this.getSharedPreferences();
 		this.setFromPreferencesValue();
 		this.saveSharedPreferences();
@@ -248,7 +248,7 @@ public class DisplayBackgroundMusicActivity extends Activity {
 
 		notificationManager = (NotificationManager) getSystemService(svcName);
 
-		this.imageView = (ImageView) this.findViewById(R.id.imageView);
+
 		try {
 			updateUI();
 		} catch (FileNotFoundException e) {
@@ -296,21 +296,17 @@ public class DisplayBackgroundMusicActivity extends Activity {
 
 	public void updateUI() throws FileNotFoundException, IOException {
 
-		refreshHandler.sleep(7000);
+		refreshHandler.sleep(7010);
 		if (!stopSlidingShow) {
 			animationSet = new AnimationSet(true);
 			Animation fadeOutAnimation = new AlphaAnimation(1.0f, 0.0f);
 			Animation fadeInAnimation = new AlphaAnimation(0.0f, 1.0f);
-//			Animation stay = new AlphaAnimation(0.0f, 0.0f);
 			animationSet.addAnimation(fadeInAnimation);
 			animationSet.addAnimation(fadeOutAnimation);
-//			animationSet.addAnimation(stay);
 			fadeInAnimation.setDuration(1000);
 			fadeInAnimation.setStartOffset(0);
-			fadeOutAnimation.setDuration(1000);
-			fadeOutAnimation.setStartOffset(6000);
-//			stay.setDuration(500);
-//			stay.setStartOffset(7000);
+			fadeOutAnimation.setDuration(900);
+			fadeOutAnimation.setStartOffset(6100);
 			imageView.startAnimation(animationSet);
 
 			if (this.picList != null) {
@@ -410,7 +406,22 @@ public class DisplayBackgroundMusicActivity extends Activity {
 
 		b = intent.getBundleExtra("MusicBundle");
 		if (b != null) {
-
+			ArrayList<String> tPicList = b.getStringArrayList("PicList");
+			if(tPicList != null){
+				picList = tPicList;
+				
+				try {
+					ImageCurrentCount = 0;
+					updateUI();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			
 			currentMusic = b.getInt("CurrenMusic");
 			musicList = b.getStringArrayList("MusicList");
 			if (musicList != null) {
@@ -464,7 +475,22 @@ public class DisplayBackgroundMusicActivity extends Activity {
 
 		b = intent.getBundleExtra("MusicBundle");
 		if (b != null) {
-
+			ArrayList<String> tPicList = b.getStringArrayList("PicList");
+			if(tPicList != null){
+				picList = tPicList;
+				
+				try {
+					ImageCurrentCount = 0;
+					updateUI();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			
 			currentMusic = b.getInt("CurrenMusic");
 			musicList = b.getStringArrayList("MusicList");
 			if (musicList != null) {

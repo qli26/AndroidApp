@@ -1,12 +1,18 @@
 package com.team8.framusicv2;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -35,12 +41,25 @@ public class SinglePhotoSelectActivity extends BaseActivity {
 	private int checkedItemCount;
 	private String whoCalledMe;
 	private int position;
+	private static final int IMAGE_CUT = 2; // 裁剪图片
+
+	private int mAspectX;
+	private int mAspectY;
+	private int mOutputX;
+	private int mOutputY;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ac_image_grid);
+
 		Intent intent = this.getIntent();
+
+		mAspectX = intent.getIntExtra("aspectX", 1);
+		mAspectY = intent.getIntExtra("aspectY", 1);
+		mOutputX = intent.getIntExtra("outputX", 80);
+		mOutputY = intent.getIntExtra("outputY", 80);
+
 		Bundle b = intent.getBundleExtra("Layout");
 		whoCalledMe = b.getString("WhoCalledMe");
 		position = b.getInt("position");
@@ -59,9 +78,15 @@ public class SinglePhotoSelectActivity extends BaseActivity {
 			imagecursor.moveToPosition(i);
 			int dataColumnIndex = imagecursor
 					.getColumnIndex(MediaStore.Images.Media.DATA);
-			imageUrls.add(imagecursor.getString(dataColumnIndex));
+			String filename = imagecursor.getString(dataColumnIndex);
+			File f = new File(filename);
+			long fileSize = f.length() / 1000;
 
-			System.out.println("=====> Array path => " + imageUrls.get(i));
+			if (fileSize > 50) {
+				imageUrls.add(imagecursor.getString(dataColumnIndex));
+
+				System.out.println("=====> Array path => " + imageUrls.get(imageUrls.size() - 1));
+			}
 		}
 
 		options = new DisplayImageOptions.Builder()
@@ -73,19 +98,20 @@ public class SinglePhotoSelectActivity extends BaseActivity {
 
 		GridView gridView = (GridView) findViewById(R.id.gridview);
 		gridView.setAdapter(imageAdapter);
-		// gridView.setOnItemClickListener(new OnItemClickListener() {
-		// @Override
-		// public void onItemClick(AdapterView<?> parent, View view, int
-		// position, long id) {
-		// startImageGalleryActivity(position);
-		// }
-		// });
-		imagecursor.close();
+	}
+
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		Toast.makeText(this, "Choose pic Start", Toast.LENGTH_LONG).show();
+
+		super.onStart();
 	}
 
 	@Override
 	protected void onStop() {
 		imageLoader.stop();
+		Toast.makeText(this, "Choose pic Stopped", Toast.LENGTH_LONG).show();
 		super.onStop();
 	}
 
@@ -96,7 +122,10 @@ public class SinglePhotoSelectActivity extends BaseActivity {
 					"At least select one item!", Toast.LENGTH_SHORT).show();
 		} else {
 			// send intent back with picture path and sequence
-			startActivityToLayouts(this.whoCalledMe, this.position, selectedItems.get(0));
+			Toast.makeText(SinglePhotoSelectActivity.this,
+					selectedItems.get(0), Toast.LENGTH_LONG).show();
+			startActivityToLayouts(this.whoCalledMe, this.position,
+					selectedItems.get(0));
 		}
 	}
 
@@ -106,19 +135,32 @@ public class SinglePhotoSelectActivity extends BaseActivity {
 	 * imageUrls); intent.putExtra(Extra.IMAGE_POSITION, position);
 	 * startActivity(intent); }
 	 */
+	// 获取裁剪图片意图的方法
+	private Intent getImageClipIntent(String PicPath) {
+		// Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
+		Intent intent = new Intent("com.android.camera.action.CROP");
+		// 实现对图片的裁剪,必须要设置图片的属性和大小
+		Uri uri = Uri.parse("file://" + PicPath);
+		intent.setDataAndType(uri, "image/*");
+		intent.putExtra("crop", "false");// 设置可以滑动选选择区域的属性,注意这里是字符串"true"
+		intent.putExtra("aspectX", mAspectX);
+		intent.putExtra("aspectY", mAspectY);
+		intent.putExtra("outputX", mOutputX);
+		intent.putExtra("outputY", mOutputY);
+		intent.putExtra("return-data", true);
+
+		// intent.putExtra("scale", true);
+		// intent.putExtra("outputFormat",
+		// Bitmap.CompressFormat.PNG.toString());
+
+		return intent;
+	}
 
 	private void startActivityToLayouts(String whoCalledMe2, int position2,
 			String PicPath) {
 		// TODO Auto-generated method stub
-		//if(whoCalledMe2.equals("Layout3Activity")){
-			Intent i = new Intent(this,Layout3Activity.class);
-			Bundle b = new Bundle();
-			b.putInt("position", position2);
-			b.putString("PicPath", PicPath);
-			i.putExtra("Bundle", b);
-			startActivity(i);
-			finish();
-		//}
+		Intent intentCrop = getImageClipIntent(PicPath);
+		startActivityForResult(intentCrop, IMAGE_CUT);
 	}
 
 	public class ImageAdapter extends BaseAdapter {
@@ -215,7 +257,7 @@ public class SinglePhotoSelectActivity extends BaseActivity {
 						Toast.makeText(mContext, "Can only select one item",
 								Toast.LENGTH_LONG).show();
 						buttonView.setChecked(false);
-						
+
 					} else {
 						mSparseBooleanArray.put((Integer) buttonView.getTag(),
 								isChecked);
@@ -225,4 +267,84 @@ public class SinglePhotoSelectActivity extends BaseActivity {
 			}
 		};
 	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Toast.makeText(this, "return result", Toast.LENGTH_LONG).show();
+		// TODO Auto-generated method stub
+		// super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			if (requestCode == IMAGE_CUT) { // 裁剪图片
+				// 一定要和"return-data"返回的标签"data"一致
+				Bitmap bmp = data.getParcelableExtra("data");
+				if (bmp != null) {
+					bmp = Bitmap.createScaledBitmap(bmp, mOutputX, mOutputY,
+							true);
+					long a = System.currentTimeMillis();
+
+					String PicPath = saveTempBitmap(new Long(a).toString(), bmp);
+
+					if (whoCalledMe.contains("Layout3Activity")) {
+						Intent i = new Intent(this, Layout3Activity.class);
+						Bundle b = new Bundle();
+						b.putInt("position", position);
+						b.putString("PicPath", PicPath);
+						i.putExtra("Bundle", b);
+						startActivity(i);
+						finish();
+					} else if (whoCalledMe.contains("Layout2Activity")) {
+						Intent i = new Intent(this, Layout2Activity.class);
+						Bundle b = new Bundle();
+						b.putInt("position", position);
+						b.putString("PicPath", PicPath);
+						i.putExtra("Bundle", b);
+						startActivity(i);
+						finish();
+					} else if (whoCalledMe.contains("Layout1Activity")) {
+						Intent i = new Intent(this, Layout1Activity.class);
+						Bundle b = new Bundle();
+						b.putInt("position", position);
+						b.putString("PicPath", PicPath);
+						i.putExtra("Bundle", b);
+						startActivity(i);
+						finish();
+					}
+
+				}
+			}
+		}
+	}
+
+	public String saveTempBitmap(String bitName, Bitmap mBitmap) {
+		File f = new File(Environment.getExternalStorageDirectory() + "/"
+				+ bitName + ".png");
+		Toast.makeText(this, f.getAbsolutePath(), Toast.LENGTH_LONG).show();
+		try {
+			f.createNewFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		FileOutputStream fOut = null;
+		try {
+			fOut = new FileOutputStream(f);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		mBitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+
+		try {
+			fOut.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			fOut.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return f.getAbsolutePath();
+	}
+
 }

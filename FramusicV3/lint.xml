@@ -3,4 +3,7 @@
     <issue id="NewApi">
         <ignore path="src/com/team8/framusicv2/DisplayBackgroundMusicActivity.java" />
     </issue>
+    <issue id="UseValueOf">
+        <ignore path="src/com/team8/framusicv2/SinglePhotoSelectActivity.java" />
+    </issue>
 </lint>
