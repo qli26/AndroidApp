@@ -1112,6 +1112,7 @@ public class DisplayBackgroundMusicActivity extends Activity {
 					}
 
 				};
+				
 
 				Toast toast = Toast.makeText(mContext,
 						"Press again to close the app",
