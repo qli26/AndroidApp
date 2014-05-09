@@ -42,6 +42,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -199,16 +200,17 @@ public class DisplayBackgroundMusicActivity extends Activity {
 		/* copy from framusicp */
 
 		Button reset = (Button) findViewById(R.id.reset);
-		reset.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				mFirstTimeOpen = true;
-				saveSharedPreferences();
-			}
-
-		});
+		reset.setVisibility(reset.GONE);
+//		reset.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				mFirstTimeOpen = true;
+//				saveSharedPreferences();
+//			}
+//
+//		});
 
 		mPlayStopMusic = (Button) findViewById(R.id.play_stop_music);
 		mPrevious = (Button) findViewById(R.id.previous);
@@ -297,7 +299,7 @@ public class DisplayBackgroundMusicActivity extends Activity {
 	public void updateUI() throws FileNotFoundException, IOException {
 
 		refreshHandler.sleep(7010);
-		if (!stopSlidingShow) {
+		if (!activeStopSlidingShow) {
 			animationSet = new AnimationSet(true);
 			Animation fadeOutAnimation = new AlphaAnimation(1.0f, 0.0f);
 			Animation fadeInAnimation = new AlphaAnimation(0.0f, 1.0f);
@@ -515,12 +517,12 @@ public class DisplayBackgroundMusicActivity extends Activity {
 		// if (b != null) {
 		// mWhoCalledMe = b.getString("WHO_CALLED_ME");
 		// }
-		if (stopPlayingMusic) {
+		/*if (stopPlayingMusic) {
 			musicPlayer.pause();
 			playing = musicPlayer.isPlaying();
 			mPlayStopMusic.setBackgroundResource(R.drawable.ic_action_play);
 			Toast.makeText(mContext, "Pause", Toast.LENGTH_LONG).show();
-		}
+		}*/
 		if (alarmOnOff == true) {
 			startMusicAlarm();
 			stopMusicAlarm();
@@ -799,6 +801,7 @@ public class DisplayBackgroundMusicActivity extends Activity {
 		mDrawerList.setAdapter(adapter);
 	}
 
+	private boolean activeStopSlidingShow = false ;
 	private void monitorBatteryState() {
 		batteryLevelRcvr = new BroadcastReceiver() {
 
@@ -848,6 +851,7 @@ public class DisplayBackgroundMusicActivity extends Activity {
 								sb.append(": stop sliding show");
 								Toast t = Toast.makeText(mContext, sb,
 										Toast.LENGTH_LONG);
+								activeStopSlidingShow = true;
 								t.setGravity(Gravity.CENTER, 0, 0);
 								t.show();
 							}

@@ -212,7 +212,7 @@ public class Layout2Activity extends Activity {
 	}
 
 	public void saveMyBitmap(String bitName, Bitmap mBitmap) {
-		File f = new File(Environment.getExternalStorageDirectory()
+		/*File f = new File(Environment.getExternalStorageDirectory()
 				+ "/DCIM/Camera/" + bitName + ".png");
 		try {
 			f.createNewFile();
@@ -239,7 +239,9 @@ public class Layout2Activity extends Activity {
 			fOut.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
+		MediaStore.Images.Media.insertImage(getContentResolver(), mBitmap,
+				"", "");
 	}
 
 }

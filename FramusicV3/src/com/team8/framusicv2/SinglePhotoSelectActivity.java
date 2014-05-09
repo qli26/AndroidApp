@@ -84,7 +84,6 @@ public class SinglePhotoSelectActivity extends BaseActivity {
 
 			if (fileSize > 50) {
 				imageUrls.add(imagecursor.getString(dataColumnIndex));
-
 				System.out.println("=====> Array path => " + imageUrls.get(imageUrls.size() - 1));
 			}
 		}
@@ -103,7 +102,7 @@ public class SinglePhotoSelectActivity extends BaseActivity {
 	@Override
 	protected void onStart() {
 		// TODO Auto-generated method stub
-		Toast.makeText(this, "Choose pic Start", Toast.LENGTH_LONG).show();
+		//Toast.makeText(this, "Choose pic Start", Toast.LENGTH_LONG).show();
 
 		super.onStart();
 	}
@@ -111,7 +110,7 @@ public class SinglePhotoSelectActivity extends BaseActivity {
 	@Override
 	protected void onStop() {
 		imageLoader.stop();
-		Toast.makeText(this, "Choose pic Stopped", Toast.LENGTH_LONG).show();
+//		Toast.makeText(this, "Choose pic Stopped", Toast.LENGTH_LONG).show();
 		super.onStop();
 	}
 

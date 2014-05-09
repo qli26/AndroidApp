@@ -33,15 +33,15 @@ public class Layout1Activity extends Activity {
 		mContext = this;
 		findViews();
 		setListeners();
-		Toast.makeText(mContext, "layout1Activity",
-				Toast.LENGTH_LONG).show();
+//		Toast.makeText(mContext, "layout1Activity",
+//				Toast.LENGTH_LONG).show();
 	}
 
 	@Override
 	protected void onStop() {
 		// TODO Auto-generated method stub
-		Toast.makeText(mContext, "layout1Activity stop",
-				Toast.LENGTH_LONG).show();
+//		Toast.makeText(mContext, "layout1Activity stop",
+//				Toast.LENGTH_LONG).show();
 		super.onStop();
 	}
 
@@ -180,7 +180,7 @@ public class Layout1Activity extends Activity {
 	}
 
 	public void saveMyBitmap(String bitName, Bitmap mBitmap) {
-		File f = new File(Environment.getExternalStorageDirectory()
+		/*File f = new File(Environment.getExternalStorageDirectory()
 				+ "/DCIM/Camera/" + bitName + ".png");
 		try {
 			f.createNewFile();
@@ -193,11 +193,11 @@ public class Layout1Activity extends Activity {
 			fOut = new FileOutputStream(f);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		}
-		mBitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
-		MediaStore.Images.Media.insertImage(getContentResolver(), mBitmap,
+		}*/
+		//mBitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+		MediaStore.Images.Media.insertImage(this.getContentResolver(), mBitmap,
 				bitName, "");
-
+/*
 		try {
 			fOut.flush();
 		} catch (IOException e) {
@@ -207,6 +207,6 @@ public class Layout1Activity extends Activity {
 			fOut.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 }

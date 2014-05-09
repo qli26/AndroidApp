@@ -14,7 +14,6 @@
 
     <style name="Theme.TranslucentActionBar.ActionBar.NotOverlay">
         <item name="android:actionBarStyle">@style/Widget.ActionBar.Transparent</item>
-        
     </style>
 
 </resources>
