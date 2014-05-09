@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -126,8 +127,8 @@ public class Layout1Activity extends Activity {
 	protected void onNewIntent(Intent intent) {
 		// TODO Auto-generated method stub
 		super.onNewIntent(intent);
-		Toast.makeText(mContext, "new Intent layout1Activity",
-				Toast.LENGTH_LONG).show();
+//		Toast.makeText(mContext, "new Intent layout1Activity",
+//				Toast.LENGTH_LONG).show();
 		Bundle b = intent.getBundleExtra("Bundle");
 		try {
 			setImage(b.getInt("position"), b.getString("PicPath"));
@@ -195,8 +196,10 @@ public class Layout1Activity extends Activity {
 			e.printStackTrace();
 		}*/
 		//mBitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
-		MediaStore.Images.Media.insertImage(this.getContentResolver(), mBitmap,
-				bitName, "");
+		
+		Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(this.getContentResolver(), mBitmap,
+				"", ""));
+		Toast.makeText(mContext, "New image is saved to " + uri.getPath(), Toast.LENGTH_LONG).show();
 /*
 		try {
 			fOut.flush();

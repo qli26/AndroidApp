@@ -286,8 +286,9 @@ public class Layout3Activity extends Activity {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}*/
-		MediaStore.Images.Media.insertImage(getContentResolver(), mBitmap,
-				"", "");
+		Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(this.getContentResolver(), mBitmap,
+				"", ""));
+		Toast.makeText(mContext, "New image is saved to " + uri, Toast.LENGTH_LONG).show();
 	}
 
 }

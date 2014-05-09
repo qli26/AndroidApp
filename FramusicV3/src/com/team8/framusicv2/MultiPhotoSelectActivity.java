@@ -67,7 +67,7 @@ public class MultiPhotoSelectActivity extends BaseActivity {
 			File f = new File(filename);
 			long fileSize = f.length() / 1000;
 
-			if (fileSize > 50) {
+			if (fileSize > 30) {
 				imageUrls.add(imageCursor.getString(dataColumnIndex));
 
 				System.out.println("=====> Array path => " + imageUrls.get(imageUrls.size() - 1));

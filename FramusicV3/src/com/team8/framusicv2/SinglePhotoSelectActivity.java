@@ -82,7 +82,7 @@ public class SinglePhotoSelectActivity extends BaseActivity {
 			File f = new File(filename);
 			long fileSize = f.length() / 1000;
 
-			if (fileSize > 50) {
+			if (fileSize > 30) {
 				imageUrls.add(imagecursor.getString(dataColumnIndex));
 				System.out.println("=====> Array path => " + imageUrls.get(imageUrls.size() - 1));
 			}
@@ -269,7 +269,7 @@ public class SinglePhotoSelectActivity extends BaseActivity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		Toast.makeText(this, "return result", Toast.LENGTH_LONG).show();
+//		Toast.makeText(this, "return result", Toast.LENGTH_LONG).show();
 		// TODO Auto-generated method stub
 		// super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
@@ -317,7 +317,7 @@ public class SinglePhotoSelectActivity extends BaseActivity {
 	public String saveTempBitmap(String bitName, Bitmap mBitmap) {
 		File f = new File(Environment.getExternalStorageDirectory() + "/"
 				+ bitName + ".png");
-		Toast.makeText(this, f.getAbsolutePath(), Toast.LENGTH_LONG).show();
+//		Toast.makeText(this, f.getAbsolutePath(), Toast.LENGTH_LONG).show();
 		try {
 			f.createNewFile();
 		} catch (IOException e) {
