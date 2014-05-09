@@ -562,6 +562,9 @@ public class DisplayBackgroundMusicActivity extends Activity {
 		}
 
 		stopSlidingShow = sp.getBoolean("STOP_SLIDING_SHOW", stopSlidingShow);
+		if(stopSlidingShow == false){
+			this.activeStopSlidingShow = false;
+		}
 		stopPlayingMusic = sp
 				.getBoolean("STOP_PLAYING_MUSIC", stopPlayingMusic);
 		quitFramusic = sp.getBoolean("QUIT_FRAMUSIC", quitFramusic);
